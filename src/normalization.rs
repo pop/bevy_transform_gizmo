@@ -7,7 +7,7 @@ pub enum FseNormalizeSystem {
 
 pub struct Ui3dNormalization;
 impl Plugin for Ui3dNormalization {
-    fn build(&self, app: &mut App) {
+    fn build(&self, app: &mut AppBuilder) {
         app.add_system_to_stage(
             CoreStage::PostUpdate,
             normalize

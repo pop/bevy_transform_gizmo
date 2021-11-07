@@ -2,7 +2,7 @@ use bevy::{
     prelude::*,
     render::{
         pass::{
-            LoadOp, Operations, PassDescriptor, RenderPassDepthStencilAttachment, TextureAttachment,
+            LoadOp, Operations, PassDescriptor, RenderPassDepthStencilAttachmentDescriptor, TextureAttachment,
         },
         render_graph,
         render_graph::base,
@@ -23,7 +23,7 @@ pub fn add_gizmo_graph(world: &mut World) {
     let msaa = world.get_resource::<Msaa>().unwrap();
 
     let mut gizmo_pass_node = render_graph::PassNode::<&GizmoPass>::new(PassDescriptor {
-        color_attachments: vec![msaa.color_attachment(
+        color_attachments: vec![msaa.color_attachment_descriptor(
             TextureAttachment::Input("color_attachment".to_string()),
             TextureAttachment::Input("color_resolve_target".to_string()),
             Operations {
@@ -31,7 +31,7 @@ pub fn add_gizmo_graph(world: &mut World) {
                 store: true,
             },
         )],
-        depth_stencil_attachment: Some(RenderPassDepthStencilAttachment {
+        depth_stencil_attachment: Some(RenderPassDepthStencilAttachmentDescriptor {
             attachment: TextureAttachment::Input("depth".to_string()),
             depth_ops: Some(Operations {
                 load: LoadOp::Clear(1.0),

@@ -1,14 +1,16 @@
 use bevy::prelude::*;
 
 fn main() {
-    App::new()
+    App::build()
         .insert_resource(WindowDescriptor {
             vsync: false, // Disabled for this demo to remove vsync as a source of input latency
             ..Default::default()
         })
         .insert_resource(Msaa { samples: 4 })
         .add_plugins(DefaultPlugins)
-        .add_plugin(bevy_mod_picking::DefaultPickingPlugins)
+        .add_plugin(bevy_mod_picking::PickingPlugin) // TODO: Can be DefaultPickingPlugin
+        .add_plugin(bevy_mod_picking::InteractablePickingPlugin) // TODO: Can be DefaultPickingPlugin
+        .add_plugin(bevy_mod_picking::HighlightablePickingPlugin) // TODO: Can be DefaultPickingPlugin
         .add_plugin(bevy_transform_gizmo::TransformGizmoPlugin)
         .add_startup_system(setup.system())
         .run();
@@ -40,7 +42,7 @@ fn setup(
         .insert_bundle(bevy_mod_picking::PickableBundle::default())
         .insert(bevy_transform_gizmo::GizmoTransformable);
     // light
-    commands.spawn_bundle(PointLightBundle {
+    commands.spawn_bundle(LightBundle {
         transform: Transform::from_xyz(4.0, 8.0, 4.0),
         ..Default::default()
     });
